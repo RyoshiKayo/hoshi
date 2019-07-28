@@ -2,8 +2,6 @@ AWSTemplateFormatVersion: 2010-09-09
 Conditions:
   UseSubnet: !Not [!Equals [!Ref 'SubnetId', subnet-none]]
   IsBurstableInstanceType: !Equals [!Select [0, !Split ['.', !Ref InstanceType]], t2]
-Transform:
-- AWS::CodeStar
 Parameters:
   InstanceType:
     Type: String
@@ -27,7 +25,7 @@ Parameters:
   SSHSourceCidr:
     Type: String
     Description: The SSH CIDR that you want to be able to SSH to the host from.
-  DBPortCidr:
+  DBSourceCidr:
     Type: String
     Description: The DB CIDR that you want to be able to connect to a DB from.
 Resources:
@@ -36,7 +34,7 @@ Resources:
     Properties:
       CreditSpecification:
         CPUCredits: !If [IsBurstableInstanceType, unlimited, !Ref 'AWS::NoValue']
-      IamInstanceProfile: !Ref 'WebAppInstanceProfile'
+      IamInstanceProfile: 'HoshiSrvInstanceProfile'
       ImageId: !Ref 'ImageId'
       InstanceType: !Ref 'InstanceType'
       KeyName: !Ref 'KeyPairName'
@@ -44,16 +42,16 @@ Resources:
       - AssociatePublicIpAddress: true
         DeviceIndex: 0
         GroupSet:
-        - !Ref 'WebAppSG'
+        - !Ref 'HoshiSG'
         SubnetId: !If
         - UseSubnet
         - !Ref 'SubnetId'
         - !Ref 'AWS::NoValue'
       Tags:
       - Key: Environment
-        Value: !Sub '${ProjectId}-Srv${Stage}'
+        Value: !Sub 'HoshiSrv${Stage}'
       - Key: Name
-        Value: !Sub '${ProjectId}-Srv${Stage}'
+        Value: !Sub 'HoshiSrv${Stage}'
       UserData:
         Fn::Base64:
           Fn::Sub: |
@@ -90,4 +88,8 @@ Resources:
         FromPort: '22'
         ToPort: '22'
         CidrIp: !Ref 'SSHSourceCidr'
+      - IpProtocol: tcp
+        FromPort: '5432'
+        ToPort: '5432'
+        CidrIp: !Ref 'DBSourceCidr'
       VpcId: !Ref 'VpcId'
