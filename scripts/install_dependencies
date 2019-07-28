@@ -1,6 +1,5 @@
-EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
-EC2_REGION="`echo \"$EC2_AVAIL_ZONE\" | sed 's/[a-z]$//'`"
 cd /home/ec2-user/hoshi
+aws secretsmanager get-secret-value --secret-id hoshi | jq -r '.SecretString' > config.json
 curl -sL https://rpm.nodesource.com/setup_10.x | bash -
 yum install -y nodejs
 npm install forever -g
