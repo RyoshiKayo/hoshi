@@ -2,11 +2,11 @@ version: 0.0
 os: linux
 files:
   - source: /hoshi.js
-    destination: /home/ec2-user/hoshi
+    destination: /home/ubuntu/hoshi
   - source: /package.json
-    destination: /home/ec2-user/hoshi
+    destination: /home/ubuntu/hoshi
   - source: /config.json
-    destination: /home/ec2-user/hoshi
+    destination: /home/ubuntu/hoshi
 hooks:
   AfterInstall:
     - location: scripts/install_dependencies
