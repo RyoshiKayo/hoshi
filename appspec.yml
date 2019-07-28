@@ -2,17 +2,14 @@ version: 0.0
 os: linux
 files:
   - source: /hoshi.js
-    destination: /home/ec2-user/node-website
+    destination: /home/ec2-user/hoshi
   - source: /package.json
-    destination: /home/ec2-user/node-website
-  - source: /public/
-    destination: /home/ec2-user/node-website/public
+    destination: /home/ec2-user/hoshi
+  - source: /config.json
+    destination: /home/ec2-user/hoshi
 hooks:
   AfterInstall:
     - location: scripts/install_dependencies
-      timeout: 300
-      runas: root
-    - location: scripts/codestar_remote_access
       timeout: 300
       runas: root
     - location: scripts/start_server
