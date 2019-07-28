@@ -1,2 +1,2 @@
-cd /home/ec2-user/hoshi
+cd /home/ubuntu/hoshi
 forever start hoshi.js
