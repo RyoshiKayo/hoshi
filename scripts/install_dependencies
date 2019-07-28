@@ -1,4 +1,4 @@
-cd /home/ec2-user/hoshi
+cd /home/ubuntu/hoshi
 aws secretsmanager get-secret-value --secret-id hoshi | jq -r '.SecretString' > config.json
 curl -sL https://rpm.nodesource.com/setup_10.x | bash -
 yum install -y nodejs
