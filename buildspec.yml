@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+       #any commands that need to be ran before building
+       
+artifacts:
+  type: zip
+  files:
+    - 'src/**/*'
+    - '.eslintrc.json'
+    - 'example.config.json'
+    - 'hoshi.js'
+    - 'package-lock.json'
+    - 'package.json'
+    - 'yarn.lock'
