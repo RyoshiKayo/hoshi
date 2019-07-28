@@ -30,6 +30,9 @@ Parameters:
     Type: String
     Description: The name for a project pipeline stage, such as Staging or Prod, for which resources are provisioned and deployed.
     Default: ''
+  SSHSourceCidr:
+    Type: String
+    Description: The SSH CIDR that you want to be able to SSH to the host from.
 Resources:
   HoshiSrv01:
     Description: The installation and configuration commands this project will use to create instances that support this sample web application.
@@ -83,7 +86,11 @@ Resources:
         ToPort: '80'
         CidrIp: 0.0.0.0/0
       - IpProtocol: tcp
+        FromPort: '443'
+        ToPort: '443'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
         FromPort: '22'
         ToPort: '22'
-        CidrIp: 0.0.0.0/0
+        CidrIp: !Ref 'SSHSourceCidr'
       VpcId: !Ref 'VpcId'
